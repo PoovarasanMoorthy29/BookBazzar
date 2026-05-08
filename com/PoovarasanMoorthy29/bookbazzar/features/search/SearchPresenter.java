@@ -1,0 +1,22 @@
+package com.bookbazzar.features.search;
+import com.bookbazzar.data.dto.Book;
+import com.bookbazzar.data.repository.BookBazzarDB;
+import java.util.ArrayList;
+import java.util.List;
+public class SearchPresenter {
+    private SearchView view;
+    public SearchPresenter(SearchView view) {
+        this.view = view;
+    }
+    public void search(String query) {
+        List<Book> allBooks = BookBazzarDB.getInstance().getBooks();
+        List<Book> results = new ArrayList<>();
+        String lowerQuery = query.toLowerCase();
+        for (Book b : allBooks) {
+            if (b.getTitle().toLowerCase().contains(lowerQuery) || b.getAuthor().toLowerCase().contains(lowerQuery)) {
+                results.add(b);
+            }
+        }
+        view.showResults(results);
+    }
+}
