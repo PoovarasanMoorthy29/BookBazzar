@@ -38,22 +38,26 @@ public class UpdateBookView implements BaseView {
         if (choice > 0 && choice <= books.size()) {
             Book b = books.get(choice - 1);
             System.out.print("New Title (" + b.getTitle() + "): ");
-            String title = scanner.nextLine();
+            String title = scanner.nextLine().trim();
             if (title.isEmpty()) title = b.getTitle();
             System.out.print("New Author (" + b.getAuthor() + "): ");
-            String author = scanner.nextLine();
+            String author = scanner.nextLine().trim();
             if (author.isEmpty()) author = b.getAuthor();
             System.out.print("New Price (" + b.getPrice() + "): ");
-            String priceStr = scanner.nextLine();
+            String priceStr = scanner.nextLine().trim();
             double price = b.getPrice();
             if (!priceStr.isEmpty()) {
                 try {
                     price = Double.parseDouble(priceStr);
                 } catch (Exception e) {
-                    System.out.println("Invalid price. Keeping old price.");
+                    System.out.println("Invalid price format. Keeping old price.");
                 }
             }
             presenter.updateBook(b.getId(), title, author, price);
+        } else if (choice == 0) {
+            System.out.println("Update cancelled.");
+        } else {
+            System.out.println("Invalid choice.");
         }
     }
     public void onSuccess() {

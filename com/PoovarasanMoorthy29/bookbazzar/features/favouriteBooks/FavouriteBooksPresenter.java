@@ -13,9 +13,16 @@ public class FavouriteBooksPresenter {
         view.showBooks(favs);
     }
     public void addFavourite(String userId, String bookId) {
+        List<Book> favs = BookBazzarDB.getInstance().getFavourites().computeIfAbsent(userId, k -> new ArrayList<>());
+        for (Book b : favs) {
+            if (b.getId().equals(bookId)) {
+                view.showMessage("Book is already in your favourites.");
+                return;
+            }
+        }
         for (Book b : BookBazzarDB.getInstance().getBooks()) {
             if (b.getId().equals(bookId)) {
-                BookBazzarDB.getInstance().getFavourites().computeIfAbsent(userId, k -> new ArrayList<>()).add(b);
+                favs.add(b);
                 view.showMessage("Added " + b.getTitle() + " to favourites.");
                 return;
             }

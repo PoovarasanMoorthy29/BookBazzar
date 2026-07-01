@@ -43,11 +43,13 @@ public class AddToCartPresenter {
             return;
         }
         double total = 0;
+        List<Book> orderBooks = new ArrayList<>();
         for (Book b : cart) {
             total += b.getPrice();
+            orderBooks.add(new Book(b.getId(), b.getTitle(), b.getAuthor(), b.getPrice(), b.getSellerId()));
         }
         String orderId = UUID.randomUUID().toString();
-        Order order = new Order(orderId, userId, new ArrayList<>(cart), total);
+        Order order = new Order(orderId, userId, orderBooks, total);
         BookBazzarDB.getInstance().getOrders().add(order);
         BookBazzarDB.getInstance().getCarts().remove(userId);
         view.showMessage("Checkout successful! Order ID: " + orderId + " Total: $" + total);

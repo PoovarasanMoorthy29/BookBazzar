@@ -21,11 +21,15 @@ public class UpdateBookPresenter {
         view.showBooks(userBooks);
     }
     public void updateBook(String id, String title, String author, double price) {
+        if (title == null || title.trim().isEmpty() || author == null || author.trim().isEmpty() || price <= 0) {
+            view.onError("Invalid book details. Title/Author cannot be empty and Price must be greater than zero.");
+            return;
+        }
         List<Book> books = BookBazzarDB.getInstance().getBooks();
         for (Book b : books) {
             if (b.getId().equals(id)) {
-                b.setTitle(title);
-                b.setAuthor(author);
+                b.setTitle(title.trim());
+                b.setAuthor(author.trim());
                 b.setPrice(price);
                 view.onSuccess();
                 return;

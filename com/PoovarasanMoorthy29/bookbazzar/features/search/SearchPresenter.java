@@ -9,9 +9,13 @@ public class SearchPresenter {
         this.view = view;
     }
     public void search(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            view.showResults(new ArrayList<>());
+            return;
+        }
         List<Book> allBooks = BookBazzarDB.getInstance().getBooks();
         List<Book> results = new ArrayList<>();
-        String lowerQuery = query.toLowerCase();
+        String lowerQuery = query.trim().toLowerCase();
         for (Book b : allBooks) {
             if (b.getTitle().toLowerCase().contains(lowerQuery) || b.getAuthor().toLowerCase().contains(lowerQuery)) {
                 results.add(b);

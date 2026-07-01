@@ -9,6 +9,10 @@ public class SignUpPresenter {
         this.view = view;
     }
     public void signUp(String username, String password, Role role) {
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            view.onError("Username and password cannot be empty or blank.");
+            return;
+        }
         for (User user : BookBazzarDB.getInstance().getUsers()) {
             if (user.getUsername().equals(username)) {
                 view.onError("Username already exists.");
@@ -16,7 +20,7 @@ public class SignUpPresenter {
             }
         }
         String id = UUID.randomUUID().toString();
-        User newUser = new User(id, username, password, role);
+        User newUser = new User(id, username.trim(), password, role);
         BookBazzarDB.getInstance().getUsers().add(newUser);
         view.onSuccess();
     }
