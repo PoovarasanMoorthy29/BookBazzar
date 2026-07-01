@@ -1,0 +1,20 @@
+# Compiled class files
+out/
+*.class
+
+# Temporary build lists
+sources.txt
+
+# IDE files
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
